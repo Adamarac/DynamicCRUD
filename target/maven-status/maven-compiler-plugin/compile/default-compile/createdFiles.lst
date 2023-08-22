@@ -1,0 +1,5 @@
+com\CRUD\ModelController\bean.class
+com\CRUD\ModelController\dao.class
+com\CRUD\util\main.class
+com\CRUD\ModelController\controller.class
+com\CRUD\util\DataBaseConnection.class
