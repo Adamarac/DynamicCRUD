@@ -20,14 +20,9 @@ public class main {
                 System.out.println("Falha ao conectar ao banco de dados.");
             }
             
-            
-            String ler = JOptionPane.showInputDialog("Digite a tabela que deseja consultar");
-            
-            tableMetadata.Metadata(ler, connection);
-
-            testeJFrame frame = new testeJFrame(listaTable.nomesTable(connection));
+            testeJFrame frame = new testeJFrame(listaTable.nomesTable(connection), connection);
             frame.setVisible(true);
-            connection.close();
+            
             
         } catch (SQLException e) {
             e.printStackTrace();
