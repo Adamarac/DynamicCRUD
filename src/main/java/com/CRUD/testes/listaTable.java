@@ -10,7 +10,17 @@ import java.util.List;
 
 public class listaTable {
     
-    public static List<String> nomesTable(Connection connection) throws SQLException {
+    private static Connection connection;
+    private static String tableName; 
+
+    public listaTable(Connection c, String tn) {
+        connection = c;
+        tableName = tn;
+    }
+    
+    
+    
+    public List<String> nomesTable() throws SQLException {
         List<String> tableNames = new ArrayList<>();
         Statement statement = connection.createStatement();
 
@@ -25,15 +35,59 @@ public class listaTable {
         return tableNames;
     }
     
-    public static int countColumns(Connection connection, String tableName) throws SQLException{
+    public ResultSetMetaData countColumns() throws SQLException{
         Statement statement = connection.createStatement();
          
             String query = "SELECT * FROM " + tableName + " WHERE 1 = 0";
             ResultSet resultSet = statement.executeQuery(query);
 
             ResultSetMetaData metaData = resultSet.getMetaData();
-            int columnCount = metaData.getColumnCount();
             
-            return columnCount;
+            
+            return metaData;
     }
+    
+    public String[] nameColumns() throws SQLException{
+        
+    ResultSetMetaData metaData = countColumns();
+    int columnCount = metaData.getColumnCount();
+    String[] columnNames = new String[columnCount];
+    
+
+            for (int i = 1; i <= columnCount; i++) {
+                columnNames[i - 1] = metaData.getColumnName(i);
+            }
+
+            return columnNames;
+    
+    
+    }
+    
+    public String[][] registrosTable() throws SQLException{
+    
+    Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+
+            int rowCount = 0;
+            int columnCount = resultSet.getMetaData().getColumnCount();
+
+            while (resultSet.next()) {
+                rowCount++;
+            }
+
+            String[][] matrix = new String[rowCount][columnCount];
+
+            resultSet.beforeFirst();
+
+            int row = 0;
+            while (resultSet.next()) {
+                for (int col = 1; col <= columnCount; col++) {
+                    matrix[row][col - 1] = resultSet.getString(col);
+                }
+                row++;
+            }
+    
+            return matrix;
+    }
+    
 }

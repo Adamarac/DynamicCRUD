@@ -1,6 +1,9 @@
 com\CRUD\ModelController\bean.class
 com\CRUD\ModelController\dao.class
-com\CRUD\testes\tableMetadata.class
-com\CRUD\util\main.class
 com\CRUD\ModelController\controller.class
+com\CRUD\testes\testeJFrame.class
+com\CRUD\testes\testeTable.class
+com\CRUD\testes\listaTable.class
+com\CRUD\testes\TesteMetadata.class
+com\CRUD\util\main.class
 com\CRUD\util\DataBaseConnection.class

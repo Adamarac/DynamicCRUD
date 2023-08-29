@@ -3,9 +3,8 @@ package com.CRUD.util;
 import com.CRUD.testes.*;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
+import java.util.List;
 
 public class main {
 
@@ -13,6 +12,7 @@ public class main {
                         
         try {
             Connection connection = DataBaseConnection.Connect();
+            listaTable nomes = new listaTable(connection,"");
 
             if (connection != null) {
                 System.out.println("Conexão bem-sucedida com o banco de dados!");
@@ -20,12 +20,11 @@ public class main {
                 System.out.println("Falha ao conectar ao banco de dados.");
             }
             
-            testeJFrame frame = new testeJFrame(listaTable.nomesTable(connection), connection);
+            List<String> comboboxOptions = nomes.nomesTable();
+            testeJFrame frame = new testeJFrame(connection, comboboxOptions);
             frame.setVisible(true);
             
-            
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

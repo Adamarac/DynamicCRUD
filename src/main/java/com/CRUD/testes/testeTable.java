@@ -2,34 +2,31 @@ package com.CRUD.testes;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class testeTable extends JFrame {
-    private int numColumns; // Número de colunas na tabela
+    private Connection connection;
 
-    public testeTable(int numColumns) {
-        this.numColumns = numColumns;
+    public testeTable(int numColumns, listaTable dados) throws SQLException {
 
-        setTitle("Table Example");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Dados da tabela");
         
-        DefaultTableModel tableModel = new DefaultTableModel();
+        String[] names = dados.nameColumns();
+        String[][] registros = dados.registrosTable();
+        
+        DefaultTableModel tableModel = new DefaultTableModel(registros,names);
 
-        // Adiciona colunas ao modelo de tabela
-        for (int i = 1; i <= numColumns; i++) {
-            tableModel.addColumn("Column " + i);
-        }
 
         JTable table = new JTable(tableModel);
 
         JScrollPane scrollPane = new JScrollPane(table);
         getContentPane().add(scrollPane, BorderLayout.CENTER);
+        
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        pack(); // Ajusta o tamanho do JFrame automaticamente
-        setLocationRelativeTo(null); // Centraliza o JFrame na tela
+        pack();
+        setLocationRelativeTo(null);
     }
 
-    public static void main(String[] args) {
-        int numColumns = 5; // Número de colunas desejado
-        SwingUtilities.invokeLater(() -> new testeTable(numColumns).setVisible(true));
-    }
 }
