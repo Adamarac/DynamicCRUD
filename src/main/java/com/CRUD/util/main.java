@@ -1,6 +1,6 @@
 package com.CRUD.util;
 
-import com.CRUD.testes.tableMetadata;
+import com.CRUD.testes.*;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -25,7 +25,8 @@ public class main {
             
             tableMetadata.Metadata(ler, connection);
 
-            
+            testeJFrame frame = new testeJFrame(listaTable.nomesTable(connection));
+            frame.setVisible(true);
             connection.close();
             
         } catch (SQLException e) {
