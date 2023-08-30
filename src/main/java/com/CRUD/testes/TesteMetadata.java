@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
-public class TesteMetadata {
+public class testeMetadata {
     
         public static void Metadata(String ler, Connection connection) throws SQLException{
             

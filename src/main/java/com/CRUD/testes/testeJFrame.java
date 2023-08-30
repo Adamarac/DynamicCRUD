@@ -13,9 +13,7 @@ import javax.swing.JFrame;
 public class testeJFrame extends JFrame {
        
     public  testeJFrame(Connection connection, List<String> options) {
-        
-        
-        
+  
         setTitle("Tabelas");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,7 +23,7 @@ public class testeJFrame extends JFrame {
         
         JButton button = new JButton("Selecionar");
         getContentPane().add(button, BorderLayout.SOUTH);
-         
+        
         button.addActionListener(e -> {
             String selectedOption = (String) comboBox.getSelectedItem();
             
