@@ -22,6 +22,7 @@ import org.apache.commons.beanutils.DynaBean;
 public class DynaDao {
     
     private final Connection connection;
+    private final String table;
     private final DynaBeans bean;
 
     /**
@@ -34,6 +35,7 @@ public class DynaDao {
      */
     public DynaDao(Connection connection, String tabela) throws SQLException, IllegalAccessException, InstantiationException {
         this.connection = connection;
+        this.table = tabela;
         
         String sqlQuery = "SELECT * FROM " + tabela + " WHERE 1 = 0";
         
@@ -97,36 +99,29 @@ public class DynaDao {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public Object[][] listar() throws SQLException, IllegalAccessException, InstantiationException{ 
+    public List<DynaBean>  listar() throws SQLException, IllegalAccessException, InstantiationException{ 
         
         String tabela = bean.getName();
         String sqlQuery = "SELECT * FROM " + tabela;
         
-        Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery(sqlQuery);  
              
         List<String> colunas = bean.attributeToList();
-        int numColunas = colunas.size();
-        
-        int numLinhas = 0;
-        while (rs.next()) {
-            numLinhas++;
-        }
-        
-        rs.beforeFirst();
-        Object[][] matriz = new Object[numLinhas][numColunas];
+        List<DynaBean> registros = new ArrayList<>();
           
-        int linha = 0;
         
         while (rs.next()) {
-            for (int coluna = 0; coluna < numColunas; coluna++) {
-                 Object columnValue = rs.getObject(colunas.get(coluna));
-                 matriz[linha][coluna] = columnValue;
+            DynaBeans reg; 
+            reg = BeanFactory.newInstance(tabela,bean.attributeToList());
+            for (String coluna : colunas) {
+                 Object columnValue = rs.getObject(coluna);
+                 reg.getBean().set(coluna, columnValue);                
             }
-            linha++;
+            registros.add(reg.getBean());
             }
         
-        return matriz;
+        return registros;
     }
      
     /**
@@ -134,10 +129,9 @@ public class DynaDao {
      * @param id
      * @throws SQLException
      */
-    public void excluir(String id) throws SQLException{ 
+    public String excluir(Object id, String pk) throws SQLException{ 
           
         String tabela = bean.getName();    
-        String pk = pk(tabela);
             
         String sql_del = "DELETE FROM " + tabela + " WHERE " + pk + " = " + id;
         
@@ -145,9 +139,9 @@ public class DynaDao {
         int rowsAffected = ps.executeUpdate();
         
         if (rowsAffected > 0) {
-                System.out.println("Registro(s) deletado(s) com sucesso.");
+                return "Registro(s) deletado(s) com sucesso.";
             } else {
-                System.out.println("Nenhum registro foi deletado.");
+                return "Nenhum registro foi deletado.";
             }
         
     }
@@ -187,11 +181,10 @@ public class DynaDao {
       
     /**
      *
-     * @param table
      * @return
      * @throws SQLException
      */
-    public String pk(String table) throws SQLException{
+    public String pk() throws SQLException{
             
         Statement statement = connection.createStatement();   
         String sql = "SHOW KEYS FROM " + table + " WHERE Key_name = 'PRIMARY'";
@@ -201,10 +194,8 @@ public class DynaDao {
         
         if (resultSet.next()) {
                 pk = resultSet.getString("Column_name");
-                System.out.println("Nome da coluna da chave primária: " + pk);
-            } else {
-                System.out.println("A tabela não possui chave primária definida.");
-            }
+              
+            } 
         
         return pk;
     }
@@ -245,7 +236,7 @@ public class DynaDao {
     public String createUpdate(DynaBean atualizar) throws SQLException{
     
         String tabela = bean.getName();
-        String pk = pk(tabela);
+        String pk = pk();
 
         List<String> colunas = bean.attributeToList();
         

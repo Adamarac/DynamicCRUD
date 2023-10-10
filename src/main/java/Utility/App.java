@@ -1,5 +1,6 @@
 package Utility;
 
+import Controllers.CRUDDatabaseController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,10 +26,10 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException, SQLException {
-        scene = new Scene(loadFXML("CRUDDatabase"));  
+        FXMLLoader xml = loadFXML("CRUDDatabase");
+        scene = new Scene(xml.load());  
         
         stage.setScene(scene);
-        
         stage.setTitle("CRUD");
         Image iconImage = new Image(getClass().getResourceAsStream("/icons/icon.png"));
         stage.getIcons().add(iconImage);
@@ -38,9 +39,9 @@ public class App extends Application {
     }
 
 
-    private static Parent loadFXML(String fxml) throws IOException {
+    public static FXMLLoader loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/FXML/" + fxml + ".fxml"));
-        return fxmlLoader.load();
+        return fxmlLoader;
     }
 
     /**

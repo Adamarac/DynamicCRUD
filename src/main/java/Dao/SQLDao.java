@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class SQLDao {
      
-    public static List<String> listar() throws SQLException{
+    public static List<String> listarBases() throws SQLException{
     
             Conexao conn = new Conexao();
             Connection connect = conn.obterConexao();

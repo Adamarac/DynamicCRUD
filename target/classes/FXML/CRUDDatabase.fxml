@@ -25,6 +25,6 @@
 
       <Button layoutX="141.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Adicionar" />
       <Button layoutX="293.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Atualizar" />
-      <Button layoutX="445.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Excluir" />
+      <Button fx:id="excluir" onAction="#onButtonClick" layoutX="445.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Excluir" />
    </children>
 </AnchorPane>
