@@ -130,21 +130,29 @@ public class DynaDao {
      * @throws SQLException
      */
     public String excluir(Object id, String pk) throws SQLException{ 
-          
-        String tabela = bean.getName();    
-            
-        String sql_del = "DELETE FROM " + tabela + " WHERE " + pk + " = " + id;
-        
+    String tabela = bean.getName();    
+    String sql_del = "DELETE FROM " + tabela + " WHERE " + pk + " = ?";
+    
+    try {
         PreparedStatement ps = connection.prepareStatement(sql_del);
+        ps.setObject(1, id);
         int rowsAffected = ps.executeUpdate();
-        
+
         if (rowsAffected > 0) {
-                return "Registro(s) deletado(s) com sucesso.";
-            } else {
-                return "Nenhum registro foi deletado.";
-            }
-        
+            return "Registro(s) deletado(s) com sucesso.";
+        } else {
+            return "Nenhum registro foi deletado.";
+        }
+    } catch (SQLException e) {
+        if (e.getSQLState().startsWith("23")) {
+            return "Erro: Esta operação viola uma chave estrangeira.";
+        } else {
+            
+            throw e; 
+        }
     }
+}
+
       
     /**
      *

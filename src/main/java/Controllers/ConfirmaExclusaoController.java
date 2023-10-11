@@ -4,11 +4,13 @@ import Beans.DynaBeans;
 import Dao.DynaDao;
 import Utility.App;
 import Utility.Conexao;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,23 +67,13 @@ public class ConfirmaExclusaoController implements Initializable {
         
         String deletedRows = dao.excluir(pkVal,pk);
         
-        message(deletedRows);
+        String title = "Resultado";
+        message(deletedRows,title);
                
         
     }
     
-    public void setRegistro(DynaBeans registro) {
-        this.registro = registro;
-    }
-
-    public void setDatabaseTable(String Database) {
-        this.Database = Database;
-    }
-    
-    
-   
-    
-    /**
+        /**
      * Initializes the controller class.
      */
     @Override
@@ -91,6 +83,18 @@ public class ConfirmaExclusaoController implements Initializable {
           
                
     }    
+        
+    public void handleButtonClick(ActionEvent event) {   
+        stage.close();     
+    }
+    
+    public void setRegistro(DynaBeans registro) {
+        this.registro = registro;
+    }
+
+    public void setDatabaseTable(String Database) {
+        this.Database = Database;
+    }
     
     public void conteudoText(){  
         
@@ -113,14 +117,14 @@ public class ConfirmaExclusaoController implements Initializable {
         
     }
     
-    private void message(String resultExc) throws IOException{
+    private void message(String resultExc, String title) throws IOException{
     
         FXMLLoader fxml = App.loadFXML("MessagePane");
         
         Parent root = fxml.load();       
         Scene scene = new Scene(root);
         stage.setScene(scene);     
-        stage.setTitle("CRUD");
+        stage.setTitle(title);
         Image iconImage = new Image(getClass().getResourceAsStream("/icons/icon.png"));
         stage.getIcons().add(iconImage);
         stage.setResizable(false);
@@ -128,6 +132,7 @@ public class ConfirmaExclusaoController implements Initializable {
         MessagePaneController controller = fxml.getController();
         controller.setStage(stage);
         controller.conteudoText(resultExc);
+        controller.setType(4);
         controller.setCRUDController(crudController);
         
         

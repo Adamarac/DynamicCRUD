@@ -1,3 +1,4 @@
+Controllers\CreateDatabaseController.class
 Beans\BeanFactory.class
 Controllers\ConfirmaExclusaoController.class
 Dao\SQLDao.class
@@ -7,6 +8,7 @@ Controllers\CRUDDatabaseController.class
 Utility\App.class
 module-info.class
 Utility\Conexao.class
+Controllers\CreateTableController.class
 Controllers\MessagePaneController.class
 Beans\DynaBeanAttribute.class
 Dao\DynaDao.class

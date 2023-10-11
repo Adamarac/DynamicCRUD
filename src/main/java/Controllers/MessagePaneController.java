@@ -4,6 +4,7 @@
  */
 package Controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -25,6 +26,8 @@ public class MessagePaneController implements Initializable {
     
 private Stage stage; 
 private CRUDDatabaseController crudController;
+private int type;
+private String base;
 
   public void setStage(Stage stage) {
         this.stage = stage;
@@ -34,13 +37,43 @@ private CRUDDatabaseController crudController;
         this.crudController = controller;
   }
 
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setBase(String base) {
+        this.base = base;
+    }
+    
+    
+  
+  
+
 @FXML
 private Text texto;
 
     @FXML
-    private void onButtonClick(ActionEvent event) throws SQLException, IllegalAccessException, InstantiationException{   
+    private void onButtonClick(ActionEvent event) throws SQLException, IllegalAccessException, InstantiationException, IOException{   
         
-        crudController.listViewMouseClicked(null);
+       switch(type){
+           
+           case 1:
+            crudController.attComboItems();
+            break;
+            
+           case 2:
+            crudController.atualizarListView(base);
+            break;
+            
+           case 4:
+            crudController.listViewMouseClicked(null);
+            break;
+            
+           default:
+            break;
+            
+        }
+                
         stage.close();       
     }
        

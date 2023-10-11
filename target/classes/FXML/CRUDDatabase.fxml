@@ -12,15 +12,15 @@
 
 <?import Controllers.CRUDDatabaseController?>
 
-<AnchorPane fx:controller="Controllers.CRUDDatabaseController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane  fx:controller="Controllers.CRUDDatabaseController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ComboBox fx:id="comboBox" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="115.0" />
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Base de dados:" wrappingWidth="115.0" />
-      <Button layoutX="14.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text=" Criar base" />
+      <Button onAction="#newBD"  layoutX="14.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text=" Criar base" />
       <ListView fx:id="listView" onMouseClicked="#listViewMouseClicked" layoutX="14.0" layoutY="112.0" prefHeight="242.0" prefWidth="115.0" />
-      <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Criar tabela" />
+      <Button onAction="#newTB" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Criar tabela" />
             
-                  <TableView fx:id="tableView" layoutX="141.0" layoutY="14.0" prefHeight="339.0" prefWidth="444.0" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="tableView" layoutX="141.0" layoutY="14.0" prefHeight="339.0" prefWidth="444.0" VBox.vgrow="ALWAYS" style="-fx-alignment: CENTER;" >
                   </TableView>
 
       <Button layoutX="141.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Adicionar" />

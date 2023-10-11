@@ -3,9 +3,12 @@ package Dao;
 import Utility.Conexao;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLNonTransientConnectionException;
+import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +53,76 @@ public class SQLDao {
     
     return tabelas;
     }
+
+
+public String createDatabase(String name) throws SQLException {
+    Conexao conn = new Conexao();
+    Connection connect = null;
+    Statement statement = null;
+
+       
+    try {
+        connect = conn.obterConexao();
+        statement = connect.createStatement();
+        
+        if (databaseExists(connect, name)) {
+            return "Erro na criação do banco de dados: A base de dados já existe.";
+        }
+        
+        String sql = "CREATE DATABASE " + name;
+        statement.executeUpdate(sql);
+        return "Banco de dados criado com sucesso.";
+    } catch (SQLException e) {
+        String errorMessage;        
+        if (e.getMessage().contains("right syntax")) {
+            errorMessage = "Erro de sintaxe SQL: Verifique o nome da sua tabela.";
+        } else {
+            errorMessage = "Erro desconhecido ao criar o banco de dados.";
+        }
+        
+        return errorMessage;
+    }
+}
+
+    public String createTable(String base, String sql) throws SQLException{
     
+        Conexao conn = new Conexao(base);
+        Connection connect = conn.obterConexao();
+         Statement statement = connect.createStatement();
+ 
+         
+        try{
+        statement.executeUpdate(sql);       
+        return "Tabela criada com sucesso!";
+        
+        } catch (SQLException e) {
+        if (e instanceof SQLIntegrityConstraintViolationException) {
+            return "Erro de restrição: Integridade de query de criação de tabela ";
+        } else if (e instanceof SQLSyntaxErrorException) {
+            return "Erro SQL: A query de criação inserida apresenta erros de sintaxe";
+        } else if (e instanceof SQLNonTransientConnectionException) {
+            return "Erro de conexão não transitória: Houve algum problemação com a sua conexão com a base de dados";
+        } else {
+            return "Erro SQL não especificado: Houve uma exceção sem solução identificada";
+        }
+    
+    
+    }
+    }
+
+private boolean databaseExists(Connection connect, String dbName) throws SQLException {
+
+    ResultSet resultSet = connect.getMetaData().getCatalogs();
+    while (resultSet.next()) {
+        String databaseName = resultSet.getString(1);
+        if (databaseName.equalsIgnoreCase(dbName)) {
+            resultSet.close();
+            return true;
+        }
+    }
+    resultSet.close();
+    return false;
+}
+
     
 }

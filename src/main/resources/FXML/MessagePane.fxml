@@ -12,3 +12,6 @@
       <Text fx:id="texto" layoutX="109.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="149.13671875" />
    </children>
 </AnchorPane>
+
+
+
