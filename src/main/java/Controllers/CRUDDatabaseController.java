@@ -153,6 +153,74 @@ public class CRUDDatabaseController implements Initializable {
     }
     
     @FXML
+    private void CreateReg(ActionEvent event) throws IOException, SQLException, IllegalAccessException, InstantiationException {
+    
+        if (selectedBD != null && selectedTable != null) {
+        
+        DynaDao est = CreateDao();
+        DynaBeans bean = est.getDynaBean();
+
+            
+        String title = "Adicionar " + selectedTable;
+        newReg(title,bean);
+        
+        }else{
+        
+            String err = "Não há uma base de dados ou tabela selecionada";
+            message(err);
+            
+        }
+        
+    }
+    
+    
+    @FXML
+    private void UpdateReg(ActionEvent event) throws IOException, SQLException, IllegalAccessException, InstantiationException {
+    
+        if (selectedBD != null && selectedTable != null) {
+        
+        DynaDao reg = CreateDao();
+                
+        TableViewSelectionModel<DynaBean> selectionModel = tableView.getSelectionModel();
+        int selectedIndex = selectionModel.getSelectedIndex();    
+        
+        if (selectedIndex < 0) {
+        message("Não há registros selecionados");
+        return;
+    }
+
+    DynaBean selectedRow = tableView.getItems().get(selectedIndex);
+    
+    if (nullBean(selectedRow)) {
+        message("Não há registros selecionados");
+        return;
+    }
+        
+        DynaBeans bean = reg.getDynaBean();
+    
+        for (TableColumn<DynaBean, ?> coluna : tableView.getColumns()) {
+        String nomeColuna = coluna.getText();
+        Object valorColuna = selectedRow.get(nomeColuna);
+        bean.getBean().set(nomeColuna, valorColuna);
+        }
+    
+    
+        String title = "Atualizar " + selectedTable;
+        UpReg(title,bean);
+        
+        }else{
+        
+            String err = "Não há uma base de dados ou tabela selecionada";
+            message(err);
+            
+        }
+        
+        
+    }
+    
+    
+    
+    @FXML
     public void listViewMouseClicked(MouseEvent event) throws SQLException, IllegalAccessException, InstantiationException, IOException {
     
     selectedBD = comboBox.getValue();
@@ -239,7 +307,7 @@ public class CRUDDatabaseController implements Initializable {
     
     public DynaDao CreateDao() throws SQLException, IllegalAccessException, InstantiationException, IOException{
        
-        if(selectedBD != null){
+        if(selectedBD != null && selectedTable != null){
         
         Conexao connection = new Conexao(selectedBD);
         Connection conn = connection.obterConexao();
@@ -299,6 +367,55 @@ public class CRUDDatabaseController implements Initializable {
    
         stage.show();
     }
+    
+    private void newReg(String title, DynaBeans bean) throws IOException, SQLException, IllegalAccessException, InstantiationException{
+    
+        Stage stage = new Stage(); 
+        FXMLLoader fxml = App.loadFXML("CreateReg");
+        
+        Parent root = fxml.load();       
+        Scene scene = new Scene(root);
+        stage.setScene(scene);  
+        
+        stage = setData(stage,title);
+        
+               
+        CreateRegController controller = fxml.getController();
+        controller.setStage(stage);
+        controller.setBean(bean);
+        controller.setCRUDController(this);
+        controller.Campos();
+   
+        stage.show();
+        
+    
+    }
+    
+    private void UpReg(String title, DynaBeans bean) throws IOException, SQLException, IllegalAccessException, InstantiationException{
+    
+        Stage stage = new Stage(); 
+        FXMLLoader fxml = App.loadFXML("UpdateReg");
+        
+        Parent root = fxml.load();       
+        Scene scene = new Scene(root);
+        stage.setScene(scene);  
+        
+        stage = setData(stage,title);
+        
+               
+        UpdateRegController controller = fxml.getController();
+        controller.setStage(stage);
+        controller.setBean(bean);
+        controller.setCRUDController(this);
+        controller.Campos();
+   
+        stage.show();
+        
+    
+    }
+    
+    
+    
     
     private void message(String resultExc) throws IOException{
     

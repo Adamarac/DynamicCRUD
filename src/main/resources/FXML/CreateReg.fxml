@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import Controllers.CreateRegController?>
+
+<AnchorPane fx:controller="Controllers.CreateRegController" id="AnchorPane" prefHeight="411.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ScrollPane style="-fx-padding: 16px;" hbarPolicy="NEVER" layoutX="21.0" layoutY="52.0" prefHeight="304.0" prefWidth="396.0">
+        <content>
+         <VBox  style="-fx-padding: 16px;" fx:id="VBox" spacing="10.0" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="350.0">
+               <children>
+                  
+               </children>
+        </VBox>
+        </content>
+      </ScrollPane>
+      <Text fx:id="text" layoutX="21.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insira seu registro">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Button layoutX="104.0" layoutY="368.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="109.0" text="Adicionar" />
+      <Button layoutX="229.0" layoutY="368.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="109.0" text="Cancelar" />
+   </children>
+</AnchorPane>

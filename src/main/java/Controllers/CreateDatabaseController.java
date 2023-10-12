@@ -48,6 +48,12 @@ public class CreateDatabaseController implements Initializable {
     }  
     
     @FXML
+    public void exit(ActionEvent event) throws IOException, SQLException {
+    
+    
+    }
+    
+    @FXML
     public void create(ActionEvent event) throws IOException, SQLException {
     
         SQLDao dao = new SQLDao();

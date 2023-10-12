@@ -1,6 +1,8 @@
 Controllers\CreateDatabaseController.class
+Controllers\CreateRegController.class
 Beans\BeanFactory.class
 Controllers\ConfirmaExclusaoController.class
+Controllers\UpdateRegController.class
 Dao\SQLDao.class
 Beans\DynaBeans.class
 Utility\teste.class

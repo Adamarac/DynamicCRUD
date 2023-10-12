@@ -23,8 +23,8 @@
                   <TableView fx:id="tableView" layoutX="141.0" layoutY="14.0" prefHeight="339.0" prefWidth="444.0" VBox.vgrow="ALWAYS" style="-fx-alignment: CENTER;" >
                   </TableView>
 
-      <Button layoutX="141.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Adicionar" />
-      <Button layoutX="293.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Atualizar" />
+      <Button onAction="#CreateReg" layoutX="141.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Adicionar" />
+      <Button  onAction="#UpdateReg" layoutX="293.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Atualizar" />
       <Button fx:id="excluir" onAction="#onButtonClick" layoutX="445.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Excluir" />
    </children>
 </AnchorPane>
