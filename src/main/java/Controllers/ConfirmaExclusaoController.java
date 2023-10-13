@@ -1,5 +1,6 @@
 package Controllers;
 
+import Beans.Bean;
 import Beans.DynaBeans;
 import Dao.DynaDao;
 import Utility.App;
@@ -47,6 +48,15 @@ public class ConfirmaExclusaoController implements Initializable {
         this.crudController = controller;
     }
     
+    public void setRegistro(DynaBeans registro) {
+        this.registro = registro;
+    }
+
+    public void setDatabaseTable(String Database) {
+        this.Database = Database;
+    }
+    
+    
     
     @FXML
     private Text texto;
@@ -57,8 +67,8 @@ public class ConfirmaExclusaoController implements Initializable {
         Conexao connection = new Conexao(Database);
         Connection conn = connection.obterConexao();    
         String table = registro.getName();
-        
-        DynaDao dao = new DynaDao(conn, table);
+        DynaBeans bean = Bean.createBean(conn, table);
+        DynaDao dao = new DynaDao(conn, bean);
         
         String pk = dao.pk();
         
@@ -86,14 +96,6 @@ public class ConfirmaExclusaoController implements Initializable {
         
     public void handleButtonClick(ActionEvent event) {   
         stage.close();     
-    }
-    
-    public void setRegistro(DynaBeans registro) {
-        this.registro = registro;
-    }
-
-    public void setDatabaseTable(String Database) {
-        this.Database = Database;
     }
     
     public void conteudoText(){  

@@ -1,5 +1,6 @@
 package Controllers;
 
+import Beans.Bean;
 import Beans.DynaBeans;
 import Dao.DynaDao;
 import Dao.SQLDao;
@@ -42,6 +43,13 @@ import org.apache.commons.beanutils.DynaBean;
  */
 public class CRUDDatabaseController implements Initializable {
       
+    @FXML
+    private ComboBox<String> comboBox;
+    @FXML
+    private ListView<String> listView;
+    @FXML
+    private TableView<DynaBean> tableView;
+ 
     private String selectedBD;
     private String selectedTable;
     DynaDao dao;
@@ -54,20 +62,14 @@ public class CRUDDatabaseController implements Initializable {
         return selectedTable;
     }
 
-    @FXML
-    private ComboBox<String> comboBox;
-    @FXML
-    private ListView<String> listView;
-    @FXML
-    private TableView<DynaBean> tableView;
- 
+    
     @FXML
     private void onButtonClick(ActionEvent event) throws IOException, SQLException, IllegalAccessException, InstantiationException {
     
     TableViewSelectionModel<DynaBean> selectionModel = tableView.getSelectionModel();
     selectedTable = listView.getSelectionModel().getSelectedItem();
     
-    DynaDao dao = CreateDao();
+    this.dao = CreateDao();
     
     if (dao == null) {
         return;
@@ -87,7 +89,7 @@ public class CRUDDatabaseController implements Initializable {
         return;
     }
     
-    DynaBeans bean = dao.getDynaBean();
+    DynaBeans bean = this.dao.getDynaBean();
     
     for (TableColumn<DynaBean, ?> coluna : tableView.getColumns()) {
         String nomeColuna = coluna.getText();
@@ -187,14 +189,14 @@ public class CRUDDatabaseController implements Initializable {
         if (selectedIndex < 0) {
         message("Não há registros selecionados");
         return;
-    }
+        }
 
-    DynaBean selectedRow = tableView.getItems().get(selectedIndex);
+        DynaBean selectedRow = tableView.getItems().get(selectedIndex);
     
-    if (nullBean(selectedRow)) {
+        if (nullBean(selectedRow)) {
         message("Não há registros selecionados");
         return;
-    }
+        }
         
         DynaBeans bean = reg.getDynaBean();
     
@@ -230,8 +232,8 @@ public class CRUDDatabaseController implements Initializable {
               
         this.dao = CreateDao();
 
-        List<String> colunas = dao.getDynaBean().attributeToList();
-        List<DynaBean> matriz = dao.listar();
+        List<String> colunas = this.dao.getDynaBean().attributeToList();
+        List<DynaBean> matriz = this.dao.listar();
 
         tableView.getItems().clear();
         tableView.getColumns().clear();
@@ -312,7 +314,8 @@ public class CRUDDatabaseController implements Initializable {
         Conexao connection = new Conexao(selectedBD);
         Connection conn = connection.obterConexao();
         
-        DynaDao dao = new DynaDao(conn, selectedTable);
+        DynaBeans bean = Bean.createBean(conn, selectedTable);
+        this.dao = new DynaDao(conn, bean);
         
         return dao;
         

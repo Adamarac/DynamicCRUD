@@ -9,9 +9,9 @@
 
 <VBox fx:controller="Controllers.ConfirmaExclusaoController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-padding: 24px;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text fx:id="texto" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Texto que pode ser maior ou menor" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
+      <Text fx:id="texto" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Texto que pode ser maior ou menor" textAlignment="CENTER" wrappingWidth="265.96875" VBox.vgrow="ALWAYS" />
       <HBox spacing="16.0">
-          <Button onAction="#onButtonClick" mnemonicParsing="false" prefHeight="32.0" prefWidth="135.0" text="Excluir" HBox.hgrow="ALWAYS" />
+         <Button onAction="#onButtonClick" mnemonicParsing="false" prefHeight="32.0" prefWidth="135.0" text="Excluir" HBox.hgrow="ALWAYS" />
          <Button onAction="#handleButtonClick" mnemonicParsing="false" prefHeight="32.0" prefWidth="115.0" text="Cancelar" HBox.hgrow="ALWAYS" />         
       </HBox>
    </children>

@@ -3,28 +3,53 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<!--?import Controllers.CRUDDatabaseController?
 
-<?import Controllers.CRUDDatabaseController?>
 
-<AnchorPane  fx:controller="Controllers.CRUDDatabaseController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+onMouseClicked="#listViewMouseClicked"
+onAction="#newTB"
+onAction="#CreateReg"
+onAction="#UpdateReg"
+onAction="#onButtonClick"
+-->
+
+<AnchorPane fx:controller="Controllers.CRUDDatabaseController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ComboBox fx:id="comboBox" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="115.0" />
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Base de dados:" wrappingWidth="115.0" />
-      <Button onAction="#newBD"  layoutX="14.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text=" Criar base" />
-      <ListView fx:id="listView" onMouseClicked="#listViewMouseClicked" layoutX="14.0" layoutY="112.0" prefHeight="242.0" prefWidth="115.0" />
-      <Button onAction="#newTB" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Criar tabela" />
+      <Button onAction="#newBD" layoutX="14.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" text=" Criar base" />
+      <ListView onMouseClicked="#listViewMouseClicked" fx:id="listView" layoutX="14.0" layoutY="112.0" prefHeight="242.0" prefWidth="115.0" />
+      <Button onAction="#newTB" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" text="Criar tabela" />
             
-                  <TableView fx:id="tableView" layoutX="141.0" layoutY="14.0" prefHeight="339.0" prefWidth="444.0" VBox.vgrow="ALWAYS" style="-fx-alignment: CENTER;" >
+                  <TableView fx:id="tableView" layoutX="141.0" layoutY="14.0" prefHeight="339.0" prefWidth="444.0" style="-fx-alignment: CENTER;" VBox.vgrow="ALWAYS">
                   </TableView>
 
       <Button onAction="#CreateReg" layoutX="141.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Adicionar" />
-      <Button  onAction="#UpdateReg" layoutX="293.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Atualizar" />
-      <Button fx:id="excluir" onAction="#onButtonClick" layoutX="445.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Excluir" />
+      <Button onAction="#UpdateReg" layoutX="293.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Atualizar" />
+      <Button onAction="#onButtonClick" fx:id="excluir" layoutX="445.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Excluir" />
+      <Button id="bt" fx:id="drop_db" layoutX="104.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" >
+       <graphic>
+            <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Icons/lixo.png" />
+               </image>
+            </ImageView>
+         </graphic>  
+      </Button>   
+      <Button id="bt" fx:id="drop_tb" layoutX="104.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0">
+            <graphic>
+            <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Icons/lixo.png" />
+               </image>
+            </ImageView>
+         </graphic>  
+      </Button>
    </children>
 </AnchorPane>

@@ -22,8 +22,7 @@ import org.apache.commons.beanutils.DynaBean;
 public class DynaDao {
     
     private final Connection connection;
-    private final String table;
-    private final DynaBeans bean;
+    private final DynaBeans table;
 
     /**
      *
@@ -33,27 +32,9 @@ public class DynaDao {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public DynaDao(Connection connection, String tabela) throws SQLException, IllegalAccessException, InstantiationException {
+    public DynaDao(Connection connection, DynaBeans tabela) throws SQLException, IllegalAccessException, InstantiationException {
         this.connection = connection;
-        this.table = tabela;
-        
-        String sqlQuery = "SELECT * FROM " + tabela + " WHERE 1 = 0";
-        
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery(sqlQuery);
-        
-        ResultSetMetaData metaData = rs.getMetaData();
-        int columnCount = metaData.getColumnCount();
-        
-        List<String> columnNames = new ArrayList<>();
-        
-        for (int i = 1; i <= columnCount; i++) {
-            String columnName = metaData.getColumnName(i);
-            columnNames.add(columnName);
-        }
-        
-        this.bean  = BeanFactory.newInstance(tabela,columnNames);
- 
+        this.table = tabela;          
     }
 
     /**
@@ -61,7 +42,7 @@ public class DynaDao {
      * @return
      */
     public DynaBeans getDynaBean() {
-        return bean;
+        return table;
     }
         
     /**
@@ -75,7 +56,7 @@ public class DynaDao {
         
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         
-        List<String> colunas = bean.attributeToList();
+        List<String> colunas = table.attributeToList();
         
         int index = 1;
         for(String column : colunas){
@@ -101,19 +82,19 @@ public class DynaDao {
      */
     public List<DynaBean>  listar() throws SQLException, IllegalAccessException, InstantiationException{ 
         
-        String tabela = bean.getName();
+        String tabela = table.getName();
         String sqlQuery = "SELECT * FROM " + tabela;
         
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery(sqlQuery);  
              
-        List<String> colunas = bean.attributeToList();
+        List<String> colunas = table.attributeToList();
         List<DynaBean> registros = new ArrayList<>();
           
         
         while (rs.next()) {
             DynaBeans reg; 
-            reg = BeanFactory.newInstance(tabela,bean.attributeToList());
+            reg = BeanFactory.newInstance(tabela,table.attributeToList());
             for (String coluna : colunas) {
                  Object columnValue = rs.getObject(coluna);
                  reg.getBean().set(coluna, columnValue);                
@@ -130,7 +111,7 @@ public class DynaDao {
      * @throws SQLException
      */
     public String excluir(Object id, String pk) throws SQLException{ 
-    String tabela = bean.getName();    
+    String tabela = table.getName();    
     String sql_del = "DELETE FROM " + tabela + " WHERE " + pk + " = ?";
     
     try {
@@ -166,7 +147,7 @@ public class DynaDao {
         
         PreparedStatement ps = connection.prepareStatement(sql);
         
-        List<String> colunas = bean.attributeToList();
+        List<String> colunas = table.attributeToList();
         
         int index = 1;
         for(String column : colunas){
@@ -195,7 +176,7 @@ public class DynaDao {
     public String pk() throws SQLException{
             
         Statement statement = connection.createStatement();   
-        String sql = "SHOW KEYS FROM " + table + " WHERE Key_name = 'PRIMARY'";
+        String sql = "SHOW KEYS FROM " + table.getName() + " WHERE Key_name = 'PRIMARY'";
         ResultSet resultSet = statement.executeQuery(sql);
         
         String pk = null;
@@ -215,8 +196,8 @@ public class DynaDao {
      */
     public String createInsert(DynaBean registro){
     
-        String tabela = bean.getName();
-        List<String> colunas = bean.attributeToList();
+        String tabela = table.getName();
+        List<String> colunas = table.attributeToList();
         
         StringBuilder string = new StringBuilder("INSERT INTO " + tabela + " (");
         string.append(String.join(", ", colunas));
@@ -243,10 +224,10 @@ public class DynaDao {
      */
     public String createUpdate(DynaBean atualizar) throws SQLException{
     
-        String tabela = bean.getName();
+        String tabela = table.getName();
         String pk = pk();
 
-        List<String> colunas = bean.attributeToList();
+        List<String> colunas = table.attributeToList();
         
         StringBuilder sql = new StringBuilder("UPDATE " + tabela + " SET ");
         for (int i = 0; i < colunas.size(); i++) {
