@@ -25,7 +25,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Button layoutX="104.0" layoutY="368.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="109.0" text="Adicionar" />
-      <Button layoutX="229.0" layoutY="368.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="109.0" text="Cancelar" />
+      <Button onAction="#create"  layoutX="104.0" layoutY="368.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="109.0" text="Adicionar" />
+      <Button onAction="#exit" layoutX="229.0" layoutY="368.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="109.0" text="Cancelar" />
    </children>
 </AnchorPane>

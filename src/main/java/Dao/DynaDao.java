@@ -6,7 +6,6 @@ import Beans.DynaBeans;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -50,8 +49,8 @@ public class DynaDao {
      * @param registro
      * @throws SQLException
      */
-    public void adicionar(DynaBean registro) throws SQLException{ 
-        
+    public String adicionar(DynaBean registro) throws SQLException{ 
+         
         String sql = createInsert(registro);
         
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -66,9 +65,9 @@ public class DynaDao {
         
         int rowsInserted = preparedStatement.executeUpdate();
             if (rowsInserted > 0) {
-                System.out.println("Inserção bem-sucedida!");
+                return "Inserção bem-sucedida!";
             } else {
-                System.out.println("A inserção falhou.");
+                return "A inserção falhou.";
             }
  
     }
@@ -141,7 +140,7 @@ public class DynaDao {
      * @param id
      * @throws SQLException
      */
-    public void atualizar(DynaBean atualiza, String id) throws SQLException{ 
+    public String atualizar(DynaBean atualiza, Object id) throws SQLException{ 
                
         String sql = createUpdate(atualiza);
         
@@ -151,19 +150,19 @@ public class DynaDao {
         
         int index = 1;
         for(String column : colunas){
-            ps.setString(index, (String) atualiza.get(column));
+            ps.setObject(index, atualiza.get(column));
             index++;
         }
         
         
-        ps.setString(index, id);
+        ps.setObject(index, id);
         
         int rowsAffected = ps.executeUpdate();
         
         if (rowsAffected > 0) {
-                System.out.println("Registro(s) alterado(s) com sucesso.");
+               return "Registro(s) alterado(s) com sucesso.";
             } else {
-                System.out.println("Nenhum registro foi alterado.");
+               return "Nenhum registro foi alterado.";
             }
  
     }
@@ -212,6 +211,8 @@ public class DynaDao {
 
         string.append(")");
         String sql = string.toString();
+        
+        
     
         return sql;
     }

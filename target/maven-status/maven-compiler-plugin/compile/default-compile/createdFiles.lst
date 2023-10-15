@@ -5,6 +5,7 @@ Controllers\CRUDDatabaseController.class
 module-info.class
 Utility\Conexao.class
 Beans\DynaBeanAttribute.class
+Beans\Bean.class
 Controllers\CreateRegController.class
 Beans\BeanFactory.class
 Controllers\ConfirmaExclusaoController.class

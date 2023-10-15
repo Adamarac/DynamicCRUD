@@ -18,7 +18,7 @@
          </font>
       </Text>
       <Button onAction="#create"  layoutX="155.0" layoutY="319.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="137.0" text="Criar" />
-      <Button layoutX="309.0" layoutY="319.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="137.0" text="Cancelar" />
+      <Button onAction="#handleButtonClick"  layoutX="309.0" layoutY="319.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="137.0" text="Cancelar" />
       <Text layoutX="33.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CREATE TABLE">
          <font>
             <Font size="13.0" />

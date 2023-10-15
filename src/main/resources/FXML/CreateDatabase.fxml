@@ -12,6 +12,6 @@
       <Text layoutX="85.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insira um nome para a sua nova base de dados" textAlignment="CENTER" wrappingWidth="159.759765625" />
       <TextField fx:id="textField" layoutX="64.0" layoutY="84.0" prefHeight="25.0" prefWidth="206.0" />
       <Button layoutX="64.0" onAction="#create"  layoutY="139.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Criar" />
-      <Button layoutX="171.0" layoutY="139.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Cancelar" />
+      <Button onAction="#exit"  layoutX="171.0" layoutY="139.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Cancelar" />
    </children>
 </AnchorPane>

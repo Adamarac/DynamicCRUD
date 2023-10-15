@@ -21,10 +21,10 @@ onAction="#onButtonClick"
 
 <AnchorPane fx:controller="Controllers.CRUDDatabaseController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ComboBox fx:id="comboBox" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="115.0" />
+      <ComboBox fx:id="comboBox" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="118.0" />
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Base de dados:" wrappingWidth="115.0" />
       <Button onAction="#newBD" layoutX="14.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" text=" Criar base" />
-      <ListView onMouseClicked="#listViewMouseClicked" fx:id="listView" layoutX="14.0" layoutY="112.0" prefHeight="242.0" prefWidth="115.0" />
+      <ListView onMouseClicked="#updateTable" fx:id="listView" layoutX="14.0" layoutY="112.0" prefHeight="242.0" prefWidth="118.0" />
       <Button onAction="#newTB" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" text="Criar tabela" />
             
                   <TableView fx:id="tableView" layoutX="141.0" layoutY="14.0" prefHeight="339.0" prefWidth="444.0" style="-fx-alignment: CENTER;" VBox.vgrow="ALWAYS">

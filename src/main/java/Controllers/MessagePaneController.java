@@ -64,9 +64,9 @@ private Text texto;
            case 2:
             crudController.atualizarListView(base);
             break;
-            
+                        
            case 4:
-            crudController.listViewMouseClicked(null);
+            crudController.updateTable(null);
             break;
             
            default:

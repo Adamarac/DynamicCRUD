@@ -49,8 +49,7 @@ public class CreateDatabaseController implements Initializable {
     
     @FXML
     public void exit(ActionEvent event) throws IOException, SQLException {
-    
-    
+        stage.close();     
     }
     
     @FXML

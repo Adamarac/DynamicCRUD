@@ -66,6 +66,10 @@ public class CreateTableController implements Initializable {
   
     }
     
+    public void handleButtonClick(ActionEvent event) {   
+        stage.close();     
+    }
+    
     
     /**
      * Initializes the controller class.

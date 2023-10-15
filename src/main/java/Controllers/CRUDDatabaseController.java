@@ -66,38 +66,22 @@ public class CRUDDatabaseController implements Initializable {
     @FXML
     private void onButtonClick(ActionEvent event) throws IOException, SQLException, IllegalAccessException, InstantiationException {
     
-    TableViewSelectionModel<DynaBean> selectionModel = tableView.getSelectionModel();
-    selectedTable = listView.getSelectionModel().getSelectedItem();
+    if (selectedBD != null && selectedTable != null) {
+        
+            if(nullSelection() != null){
+                confirmaExclusao(selectedBD, nullSelection());
+            }     
+        
+        }else{
+        
+            String err = "Não há uma base de dados ou tabela selecionada";
+            message(err);
+            
+        }
+        
+        
     
-    this.dao = CreateDao();
     
-    if (dao == null) {
-        return;
-    }
-
-    int selectedIndex = selectionModel.getSelectedIndex();
-
-    if (selectedIndex < 0) {
-        message("Não há registros selecionados");
-        return;
-    }
-
-    DynaBean selectedRow = tableView.getItems().get(selectedIndex);
-    
-    if (nullBean(selectedRow)) {
-        message("Não há registros selecionados");
-        return;
-    }
-    
-    DynaBeans bean = this.dao.getDynaBean();
-    
-    for (TableColumn<DynaBean, ?> coluna : tableView.getColumns()) {
-        String nomeColuna = coluna.getText();
-        Object valorColuna = selectedRow.get(nomeColuna);
-        bean.getBean().set(nomeColuna, valorColuna);
-    }
-    
-    confirmaExclusao(selectedBD, bean);
 }
 
     
@@ -181,49 +165,25 @@ public class CRUDDatabaseController implements Initializable {
     
         if (selectedBD != null && selectedTable != null) {
         
-        DynaDao reg = CreateDao();
-                
-        TableViewSelectionModel<DynaBean> selectionModel = tableView.getSelectionModel();
-        int selectedIndex = selectionModel.getSelectedIndex();    
-        
-        if (selectedIndex < 0) {
-        message("Não há registros selecionados");
-        return;
-        }
+            if(nullSelection() != null){
 
-        DynaBean selectedRow = tableView.getItems().get(selectedIndex);
-    
-        if (nullBean(selectedRow)) {
-        message("Não há registros selecionados");
-        return;
-        }
-        
-        DynaBeans bean = reg.getDynaBean();
-    
-        for (TableColumn<DynaBean, ?> coluna : tableView.getColumns()) {
-        String nomeColuna = coluna.getText();
-        Object valorColuna = selectedRow.get(nomeColuna);
-        bean.getBean().set(nomeColuna, valorColuna);
-        }
-    
-    
-        String title = "Atualizar " + selectedTable;
-        UpReg(title,bean);
-        
+                String title = "Atualizar " + selectedTable;
+                UpReg(title,nullSelection());           
+            }
+       
         }else{
         
             String err = "Não há uma base de dados ou tabela selecionada";
             message(err);
             
         }
-        
-        
+     
     }
     
     
     
     @FXML
-    public void listViewMouseClicked(MouseEvent event) throws SQLException, IllegalAccessException, InstantiationException, IOException {
+    public void updateTable(MouseEvent event) throws SQLException, IllegalAccessException, InstantiationException, IOException {
     
     selectedBD = comboBox.getValue();
     selectedTable = listView.getSelectionModel().getSelectedItem();
@@ -387,6 +347,7 @@ public class CRUDDatabaseController implements Initializable {
         controller.setStage(stage);
         controller.setBean(bean);
         controller.setCRUDController(this);
+        controller.setDatabase(selectedBD);
         controller.Campos();
    
         stage.show();
@@ -410,6 +371,7 @@ public class CRUDDatabaseController implements Initializable {
         controller.setStage(stage);
         controller.setBean(bean);
         controller.setCRUDController(this);
+        controller.setDatabase(selectedBD);
         controller.Campos();
    
         stage.show();
@@ -442,20 +404,44 @@ public class CRUDDatabaseController implements Initializable {
         
     }
     
-    private boolean nullBean(DynaBean selectedRow){
+    private DynaBeans nullSelection() throws IOException, SQLException, IllegalAccessException, InstantiationException{
     
-    boolean allNull = true;
-    for (TableColumn<DynaBean, ?> coluna : tableView.getColumns()) {
-        String nomeColuna = coluna.getText();
-        Object valorColuna = selectedRow.get(nomeColuna);
-        if (valorColuna != null) {
-            allNull = false;
-            break;
+        int Null = 0;
+        selectedTable = listView.getSelectionModel().getSelectedItem();
+    
+        TableViewSelectionModel<DynaBean> selectionModel = tableView.getSelectionModel();
+        int selectedIndex = selectionModel.getSelectedIndex();  
+        
+         if (selectedIndex < 0) {
+            message("Não há registros selecionados");
+            return null;
         }
+        
+        DynaBean selectedRow = tableView.getItems().get(selectedIndex);
+          
+        this.dao = CreateDao();
+        DynaBeans bean = this.dao.getDynaBean();
+       
+        for (TableColumn<DynaBean, ?> coluna : tableView.getColumns()) {
+            String nomeColuna = coluna.getText();
+            Object valorColuna = selectedRow.get(nomeColuna);
+            bean.getBean().set(nomeColuna, valorColuna);
+            if (valorColuna == null) {
+                Null++;
+            }
+        }
+        
+        int numCol = tableView.getColumns().size();
+
+        if (Null == numCol) {
+            message("Não há registros selecionados");
+            return null;
+        }
+  
+     return bean;
+     
     }
     
-     return allNull;
-    }
      
     private Stage setData(Stage stage, String title){
         Image iconImage = new Image(getClass().getResourceAsStream("/icons/icon.png"));   
