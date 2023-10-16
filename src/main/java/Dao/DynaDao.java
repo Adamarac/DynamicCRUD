@@ -4,6 +4,7 @@ import Beans.BeanFactory;
 import Beans.DynaBeans;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -241,4 +242,28 @@ public class DynaDao {
         
         return sql.toString();
     }
+    
+    
+    public List<String> getAutoIncrementColumns() {
+        List<String> autoIncrementColumns = new ArrayList<>();
+        
+        try {
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet columns = metaData.getColumns(null, null, table.getName(), null);
+            
+            while (columns.next()) {
+                String columnName = columns.getString("COLUMN_NAME");
+                String isAutoIncrement = columns.getString("IS_AUTOINCREMENT");
+                if (isAutoIncrement != null && isAutoIncrement.equalsIgnoreCase("YES")) {
+                    autoIncrementColumns.add(columnName);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return autoIncrementColumns;
+    }
+    
+    
 }

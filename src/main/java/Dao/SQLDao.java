@@ -84,13 +84,52 @@ public String createDatabase(String name) throws SQLException {
     }
 }
 
-    public String createTable(String base, String sql) throws SQLException{
+    
+    public String dropDatabase(String database){
+    Conexao conn = new Conexao();
+    Connection connect = null;
+    Statement statement = null;
+        
+        
+        try {
+
+                connect = conn.obterConexao();
+                statement = connect.createStatement();
+
+                String sql = "DROP DATABASE " + database;
+                statement.executeUpdate(sql);
+
+                return "Banco de dados '" + database + "' excluído com sucesso.";
+                
+            } catch (SQLException e) {
+                
+                e.printStackTrace();
+                
+            return "Erro ao excluir o banco de dados '" + database + "': " + e.getMessage();
+            
+            } finally {
+            
+                if (connect != null) {
+                    try {
+                        connect.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+    
+    }
+
+
+    public String createTable(String base, String name, String content) throws SQLException{
     
         Conexao conn = new Conexao(base);
         Connection connect = conn.obterConexao();
-         Statement statement = connect.createStatement();
+        Statement statement = connect.createStatement();
  
-         
+        String text = "CREATE TABLE " + name + " ( " + content + " );";
+        String sql = text.split(";")[0] + ";";
+        
         try{
         statement.executeUpdate(sql);       
         return "Tabela criada com sucesso!";
@@ -109,8 +148,42 @@ public String createDatabase(String name) throws SQLException {
     
     }
     }
+    
+    public String dropTable(String base, String name) throws SQLException{
+    
+        Conexao conn = new Conexao(base);
+        Connection connect = conn.obterConexao();
+        Statement statement = connect.createStatement();
+ 
+        String sql = "DROP TABLE " + name;
+        
+            try{
+                
+                statement.executeUpdate(sql);       
+                return "Tabela deletada com sucesso!";
 
-private boolean databaseExists(Connection connect, String dbName) throws SQLException {
+            } catch (SQLException e) {
+                
+                e.printStackTrace();
+                return "Erro ao excluir a tabela '" + name + "': " + e.getMessage();
+                
+            } finally {
+                
+                if (connect != null) {
+                    
+                    try {
+                        connect.close();
+                        
+                    } catch (SQLException e) {
+                        
+                        e.printStackTrace();
+                        
+                    }
+                }
+            }
+    }
+
+    private boolean databaseExists(Connection connect, String dbName) throws SQLException {
 
     ResultSet resultSet = connect.getMetaData().getCatalogs();
     while (resultSet.next()) {
@@ -122,7 +195,8 @@ private boolean databaseExists(Connection connect, String dbName) throws SQLExce
     }
     resultSet.close();
     return false;
-}
+    
+    }
 
     
 }

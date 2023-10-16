@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 public class MessagePaneController implements Initializable {
 
     
-private Stage stage; 
+private Stage stage, me; 
 private CRUDDatabaseController crudController;
 private int type;
 private String base;
@@ -32,6 +32,11 @@ private String base;
   public void setStage(Stage stage) {
         this.stage = stage;
   } 
+
+    public void setMe(Stage me) {
+        this.me = me;
+    }
+  
   
   public void setCRUDController(CRUDDatabaseController controller) {
         this.crudController = controller;
@@ -59,22 +64,37 @@ private Text texto;
            
            case 1:
             crudController.attComboItems();
+            crudController.clearTable();
+            crudController.clearListview();
+            stage.close();    
             break;
             
            case 2:
             crudController.atualizarListView(base);
+            crudController.clearTable();
+            stage.close();    
             break;
                         
-           case 4:
+           case 3:
             crudController.updateTable(null);
+            stage.close();    
             break;
+            
+           case 4:
+            stage.show();
+            me.close();
+            
+           case 5:
+            crudController.updateTable(null);
+            me.close();
+            
             
            default:
             break;
             
         }
                 
-        stage.close();       
+           
     }
        
     /**
@@ -82,7 +102,7 @@ private Text texto;
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+   
     }    
     
     public void conteudoText(String resultExc){  

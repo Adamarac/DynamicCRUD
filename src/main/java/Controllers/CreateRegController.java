@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,18 +67,25 @@ public class CreateRegController implements Initializable {
      */
     
     @FXML
-    public void create(ActionEvent event) throws IOException, SQLException, IllegalAccessException, InstantiationException {
-    
+public void create(ActionEvent event) throws IOException {
+    try {
         DynaBean reg = preencherDynaBean();
         Conexao connection = new Conexao(database);
         Connection conn = connection.obterConexao();    
         DynaDao dao = new DynaDao(conn, bean);
         
         String upres = dao.adicionar(reg);
-        message(upres,"Atualizar");
-        
-    
+        message("Registro adicionado com sucesso.", "Sucesso",5);
+
+    } catch (SQLException e) {
+        message(e.toString(), "Erro SQL",4);
+    } catch (IOException | IllegalAccessException | InstantiationException e) {
+        message(e.toString(), "Erro",4);
+    } catch (Exception e) {
+        message(e.toString(), "Erro",4);
     }
+}
+
     
     public void exit(ActionEvent event) {   
         stage.close();     
@@ -89,9 +97,14 @@ public class CreateRegController implements Initializable {
         
     }   
     
-    public void Campos(){
+    public void Campos() throws SQLException, IllegalAccessException, InstantiationException{
     
     if (bean != null) {
+        
+            Conexao connection = new Conexao(database);
+            Connection conn = connection.obterConexao();   
+            DynaDao dao = new DynaDao(conn, bean);
+            List<String> autoIncrement = dao.getAutoIncrementColumns();
         
             String texto = "Insira seu registro de " + bean.getName() + " :";
             text.setText(texto);
@@ -104,11 +117,15 @@ public class CreateRegController implements Initializable {
                 DynaProperty dynaProperty = dynaProperties[i];
                 String propertyName = dynaProperty.getName();
 
-                Text text = new Text(propertyName + ":");
-                TextField textField = new TextField();
-                textField.setId("textField_" + propertyName);
-                
-                VBox.getChildren().addAll(text, textField);
+                for(String AUTO : autoIncrement){
+                    if(!AUTO.equals(propertyName)){
+                    Text text = new Text(propertyName + ":");
+                    TextField textField = new TextField();
+                    textField.setId("textField_" + propertyName);
+
+                    VBox.getChildren().addAll(text, textField);
+                    }
+                }
             }
         }
     
@@ -141,24 +158,28 @@ public class CreateRegController implements Initializable {
 }
 
     
-    private void message(String resultExc, String title) throws IOException{
+    private void message(String resultExc, String title, int type) throws IOException{
     
+        Stage message = new Stage();
         FXMLLoader fxml = App.loadFXML("MessagePane");
         
         Parent root = fxml.load();       
         Scene scene = new Scene(root);
-        stage.setScene(scene);     
-        stage.setTitle(title);
+        message.setScene(scene);     
+        message.setTitle(title);
         Image iconImage = new Image(getClass().getResourceAsStream("/icons/icon.png"));
-        stage.getIcons().add(iconImage);
-        stage.setResizable(false);
+        message.getIcons().add(iconImage);
+        message.setResizable(false);
     
         MessagePaneController controller = fxml.getController();
         controller.setStage(stage);
+        controller.setMe(message);
         controller.conteudoText(resultExc);
-        controller.setType(4);
+        controller.setType(type);
         controller.setCRUDController(crudController);
         
+        stage.hide();
+        message.show();
         
     }
     

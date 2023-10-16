@@ -61,6 +61,8 @@ public class CRUDDatabaseController implements Initializable {
     public String getSelectedTable() {
         return selectedTable;
     }
+ 
+    
 
     
     @FXML
@@ -69,7 +71,8 @@ public class CRUDDatabaseController implements Initializable {
     if (selectedBD != null && selectedTable != null) {
         
             if(nullSelection() != null){
-                confirmaExclusao(selectedBD, nullSelection());
+
+                confirmaExclusao(selectedBD, nullSelection(),3);
             }     
         
         }else{
@@ -84,6 +87,38 @@ public class CRUDDatabaseController implements Initializable {
     
 }
 
+    @FXML
+    private void dropDatabase(ActionEvent event) throws IOException, SQLException, IllegalAccessException, InstantiationException {
+    
+        if ("Selecione".equals(comboBox.getValue()) || comboBox.getValue() == null){
+            
+            String err = "Não há uma base de dados selecionada";
+            message(err);
+
+        }else{
+        
+            confirmaExclusao(comboBox.getValue(), null,1);
+            
+        }
+        
+    }
+    
+    @FXML
+    private void dropTable(ActionEvent event) throws IOException, SQLException, IllegalAccessException, InstantiationException {
+    
+        if (selectedTable == null){
+            
+            String err = "Não há uma tabela selecionada";
+            message(err);
+
+        }else{
+        
+            confirmaExclusao(selectedTable, null,2);
+            
+        }
+        
+    }
+    
     
     @FXML
     private void newBD(ActionEvent event) throws IOException, SQLException, IllegalAccessException, InstantiationException {
@@ -181,6 +216,15 @@ public class CRUDDatabaseController implements Initializable {
     }
     
     
+    public void clearTable(){ 
+        tableView.getItems().clear();
+        tableView.getColumns().clear();    
+    }
+    
+    public void clearListview(){ 
+        listView.getItems().clear();  
+    }
+    
     
     @FXML
     public void updateTable(MouseEvent event) throws SQLException, IllegalAccessException, InstantiationException, IOException {
@@ -195,8 +239,7 @@ public class CRUDDatabaseController implements Initializable {
         List<String> colunas = this.dao.getDynaBean().attributeToList();
         List<DynaBean> matriz = this.dao.listar();
 
-        tableView.getItems().clear();
-        tableView.getColumns().clear();
+        clearTable();
         
         criarColunas(colunas);
         preencherTabela(matriz);
@@ -227,7 +270,7 @@ public class CRUDDatabaseController implements Initializable {
     public void atualizarListView(String selecao) throws SQLException {
        
         ObservableList<String> listViewItems = FXCollections.observableArrayList();
-        
+                
         SQLDao dao = new SQLDao();
         
         List<String> tabelas = dao.tabelas(selecao);
@@ -237,6 +280,7 @@ public class CRUDDatabaseController implements Initializable {
         }
         
         listView.setItems(listViewItems);
+       
     }
         
     public void preencherTabela(List<DynaBean> dados) {
@@ -253,6 +297,8 @@ public class CRUDDatabaseController implements Initializable {
        tableView.setItems(listaDeRegistros);
     }
     
+    
+    
     public void attComboItems(){
     
         try {
@@ -263,9 +309,10 @@ public class CRUDDatabaseController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(CRUDDatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+               
     }
+    
+    
     
     public DynaDao CreateDao() throws SQLException, IllegalAccessException, InstantiationException, IOException{
        
@@ -308,7 +355,7 @@ public class CRUDDatabaseController implements Initializable {
     }
 }
     
-    private void confirmaExclusao(String DatabaseTable, DynaBeans registro) throws IOException{
+    private void confirmaExclusao(String DatabaseorTable, DynaBeans registro, int type) throws IOException{
     
         Stage stage = new Stage(); 
         FXMLLoader fxml = App.loadFXML("ConfirmaExclusao");
@@ -322,10 +369,26 @@ public class CRUDDatabaseController implements Initializable {
                
         ConfirmaExclusaoController controller = fxml.getController();
         controller.setStage(stage);
-        controller.setDatabaseTable(DatabaseTable);
+       
         controller.setRegistro(registro);
-        controller.conteudoText();
+        controller.setType(type);
+        
+        if(type == 3 ){
+        controller.setDatabaseTable(DatabaseorTable);    
+        controller.conteudoTextReg();} 
+        
+        if(type == 1){
+        controller.setTable(DatabaseorTable);
+        controller.setDatabaseTable(comboBox.getValue());
+        controller.conteudoTextDatabaseTable();}
+        
+        if(type == 2){
+        controller.setDatabaseTable(comboBox.getValue());
+        controller.setTable(DatabaseorTable);
+        controller.conteudoTextDatabaseTable();}
+        
         controller.setCRUDController(this);
+        
         
    
         stage.show();

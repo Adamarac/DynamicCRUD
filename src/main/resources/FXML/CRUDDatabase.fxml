@@ -33,7 +33,7 @@ onAction="#onButtonClick"
       <Button onAction="#CreateReg" layoutX="141.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Adicionar" />
       <Button onAction="#UpdateReg" layoutX="293.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Atualizar" />
       <Button onAction="#onButtonClick" fx:id="excluir" layoutX="445.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Excluir" />
-      <Button id="bt" fx:id="drop_db" layoutX="104.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" >
+      <Button onAction="#dropDatabase"  id="bt" fx:id="drop_db" layoutX="104.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" >
        <graphic>
             <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -42,7 +42,7 @@ onAction="#onButtonClick"
             </ImageView>
          </graphic>  
       </Button>   
-      <Button id="bt" fx:id="drop_tb" layoutX="104.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0">
+      <Button onAction="#dropTable"  id="bt" fx:id="drop_tb" layoutX="104.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0">
             <graphic>
             <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                <image>

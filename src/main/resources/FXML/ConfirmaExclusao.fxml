@@ -7,7 +7,7 @@
 
 <?import Controllers.ConfirmaExclusaoController?>
 
-<VBox fx:controller="Controllers.ConfirmaExclusaoController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-padding: 24px;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox spacing="16.0" fx:controller="Controllers.ConfirmaExclusaoController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-padding: 24px;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text fx:id="texto" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Texto que pode ser maior ou menor" textAlignment="CENTER" wrappingWidth="265.96875" VBox.vgrow="ALWAYS" />
       <HBox spacing="16.0">

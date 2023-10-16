@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -68,6 +69,8 @@ public class UpdateRegController implements Initializable {
     @FXML
     public void update(ActionEvent event) throws IOException, SQLException, IllegalAccessException, InstantiationException {
     
+        try {
+        
         DynaBean reg = preencherDynaBean();
         Conexao connection = new Conexao(database);
         Connection conn = connection.obterConexao();    
@@ -76,9 +79,16 @@ public class UpdateRegController implements Initializable {
         
         String pk = dao.pk();
         String upres = dao.atualizar(reg, reg.get(pk));
-        message(upres,"Atualizar");
+        message(upres,"Atualizar",5);
         
-    
+    } catch (SQLException e) {
+        message(e.toString(), "Erro SQL",4);
+    } catch (IOException | IllegalAccessException | InstantiationException e) {
+        message(e.toString(), "Erro",4);
+    } catch (Exception e) {
+        message(e.toString(), "Erro",4);
+    }
+        
     }
     
     public void exit(ActionEvent event) {   
@@ -94,10 +104,15 @@ public class UpdateRegController implements Initializable {
         
     }   
     
-    public void Campos(){
+    public void Campos() throws SQLException, IllegalAccessException, InstantiationException{
     
     if (bean != null) {
         
+            Conexao connection = new Conexao(database);
+            Connection conn = connection.obterConexao();   
+            DynaDao dao = new DynaDao(conn, bean);
+            String pk = dao.pk();
+            
             String texto = "Atualize seu registro de " + bean.getName() + " :";
             text.setText(texto);
         
@@ -120,6 +135,10 @@ public class UpdateRegController implements Initializable {
                 textField.setId("textField_" + propertyName);
                 
                 }
+                
+                    if(pk.equals(propertyName)){
+                        textField.setDisable(true);
+                    }
                 
                 
                 VBox.getChildren().addAll(text, textField);
@@ -153,24 +172,28 @@ public class UpdateRegController implements Initializable {
     return campos;
 }
 
-    private void message(String resultExc, String title) throws IOException{
+    private void message(String resultExc, String title, int type) throws IOException{
     
+        Stage message = new Stage();
         FXMLLoader fxml = App.loadFXML("MessagePane");
         
         Parent root = fxml.load();       
         Scene scene = new Scene(root);
-        stage.setScene(scene);     
-        stage.setTitle(title);
+        message.setScene(scene);     
+        message.setTitle(title);
         Image iconImage = new Image(getClass().getResourceAsStream("/icons/icon.png"));
-        stage.getIcons().add(iconImage);
-        stage.setResizable(false);
+        message.getIcons().add(iconImage);
+        message.setResizable(false);
     
         MessagePaneController controller = fxml.getController();
         controller.setStage(stage);
+        controller.setMe(message);
         controller.conteudoText(resultExc);
-        controller.setType(4);
+        controller.setType(type);
         controller.setCRUDController(crudController);
         
+        stage.hide();
+        message.show();
         
     }
     

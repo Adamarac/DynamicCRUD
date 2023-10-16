@@ -54,12 +54,9 @@ public class CreateTableController implements Initializable {
     
     @FXML
     public void create(ActionEvent event) throws IOException, SQLException {
-          
-    String text = "CREATE TABLE " + name.getText() + " ( " + content.getText() + " );";
-    String sql = text.split(";")[0] + ";";
-            
+                
         SQLDao dao = new SQLDao();
-        String retorno = dao.createTable(base, sql);
+        String retorno = dao.createTable(base,name.getText(),content.getText());
         
         String title = "Resultado";
         message(retorno,title); 
