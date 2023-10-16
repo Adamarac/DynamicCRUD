@@ -79,7 +79,7 @@ public class UpdateRegController implements Initializable {
         
         String pk = dao.pk();
         String upres = dao.atualizar(reg, reg.get(pk));
-        message(upres,"Atualizar",5);
+        message(upres,"Atualizar",7);
         
     } catch (SQLException e) {
         message(e.toString(), "Erro SQL",4);
@@ -136,9 +136,11 @@ public class UpdateRegController implements Initializable {
                 
                 }
                 
+                
+                if(pk != null){
                     if(pk.equals(propertyName)){
                         textField.setDisable(true);
-                    }
+                    }}
                 
                 
                 VBox.getChildren().addAll(text, textField);

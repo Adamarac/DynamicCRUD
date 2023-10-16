@@ -83,13 +83,28 @@ private Text texto;
            case 4:
             stage.show();
             me.close();
+            break;
             
            case 5:
-            crudController.updateTable(null);
+            crudController.attComboItems();   
+            stage.close();
             me.close();
+            break;
             
+           case 6:
+            crudController.atualizarListView(base);
+            stage.close();
+            me.close();
+            break; 
+            
+           case 7: 
+            crudController.updateTable(null);
+            stage.close();
+            me.close();
+            break; 
             
            default:
+            stage.close(); 
             break;
             
         }

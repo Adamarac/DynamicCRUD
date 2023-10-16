@@ -75,7 +75,7 @@ public void create(ActionEvent event) throws IOException {
         DynaDao dao = new DynaDao(conn, bean);
         
         String upres = dao.adicionar(reg);
-        message("Registro adicionado com sucesso.", "Sucesso",5);
+        message("Registro adicionado com sucesso.", "Sucesso",7);
 
     } catch (SQLException e) {
         message(e.toString(), "Erro SQL",4);
@@ -117,16 +117,33 @@ public void create(ActionEvent event) throws IOException {
                 DynaProperty dynaProperty = dynaProperties[i];
                 String propertyName = dynaProperty.getName();
 
-                for(String AUTO : autoIncrement){
-                    if(!AUTO.equals(propertyName)){
-                    Text text = new Text(propertyName + ":");
-                    TextField textField = new TextField();
-                    textField.setId("textField_" + propertyName);
+                if (!autoIncrement.isEmpty()){    
+                    for(String AUTO : autoIncrement){
+                        if(!AUTO.equals(propertyName)){
 
-                    VBox.getChildren().addAll(text, textField);
-                    }
+                        Text text = new Text(propertyName + ":");
+                        TextField textField = new TextField();
+                        textField.setId("textField_" + propertyName);
+
+                        VBox.getChildren().addAll(text, textField);
+                 
+            }}}else{
+                
+                        Text text = new Text(propertyName + ":");
+                        TextField textField = new TextField();
+                        textField.setId("textField_" + propertyName);
+
+                        VBox.getChildren().addAll(text, textField);
+                
+                
+                
                 }
+            
+            
             }
+            
+            
+            
         }
     
     

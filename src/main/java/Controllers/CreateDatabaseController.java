@@ -59,29 +59,42 @@ public class CreateDatabaseController implements Initializable {
         String retorno = dao.createDatabase(textField.getText());
         
         String title = "Resultado";
-        message(retorno,title);
+        
+        String verify = "Banco de dados criado com sucesso.";
+        
+        if(!retorno.equals(verify)){
+        message(retorno,title,4);}else{
+        message(retorno,title,5);    
+        }
         
     }
      
-    private void message(String resultExc, String title) throws IOException{
+    private void message(String resultExc, String title, int type) throws IOException{
     
+        Stage message = new Stage();
         FXMLLoader fxml = App.loadFXML("MessagePane");
         
         Parent root = fxml.load();       
         Scene scene = new Scene(root);
-        stage.setScene(scene);     
-        stage.setTitle(title);
+        message.setScene(scene);     
+        message.setTitle(title);
         Image iconImage = new Image(getClass().getResourceAsStream("/icons/icon.png"));
-        stage.getIcons().add(iconImage);
-        stage.setResizable(false);
+        message.getIcons().add(iconImage);
+        message.setResizable(false);
     
         MessagePaneController controller = fxml.getController();
         controller.setStage(stage);
+        controller.setMe(message);
         controller.conteudoText(resultExc);
-        controller.setType(1);
+        controller.setType(type);
         controller.setCRUDController(crudController);
+        
+        stage.hide();
+        message.show();
         
         
     }
+    
+    
          
 }

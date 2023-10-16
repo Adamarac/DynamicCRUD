@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.DynaBean;
+import org.apache.commons.beanutils.DynaProperty;
 
 /**
  *
@@ -110,8 +111,12 @@ public class DynaDao {
      * @param id
      * @throws SQLException
      */
-    public String excluir(Object id, String pk) throws SQLException{ 
+    public String excluir(Object id, DynaBean bean) throws SQLException{ 
     String tabela = table.getName();    
+    String pk = pk();
+    
+    
+    if(pk != null){
     String sql_del = "DELETE FROM " + tabela + " WHERE " + pk + " = ?";
     
     try {
@@ -131,8 +136,68 @@ public class DynaDao {
             
             throw e; 
         }
-    }
+    }}else{
+    
+        String sql_del = "DELETE FROM " + tabela;
+        DynaProperty[] properties = bean.getDynaClass().getDynaProperties();
+        boolean first = true;
+
+        for (DynaProperty property : properties) {
+        String propertyName = property.getName();
+        Object propertyValue = bean.get(propertyName);
+
+   
+        if (propertyValue != null) {
+            if (first) {
+                sql_del += " WHERE " + propertyName + " = ?";
+                first = false;
+            } else {
+                sql_del += " AND " + propertyName + " = ?";
+            }
+        }
 }
+
+    if (first) {
+
+        throw new IllegalStateException("Nenhuma condição definida para a exclusão.");
+    }
+
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql_del);
+        
+        int parameterIndex = 1;
+        for (DynaProperty property : properties) {
+            String propertyName = property.getName();
+            Object propertyValue = bean.get(propertyName);
+
+                if (propertyValue != null) {
+                    ps.setObject(parameterIndex, propertyValue);
+                    parameterIndex++;
+                }
+}
+        
+        int rowsAffected = ps.executeUpdate();
+
+        if (rowsAffected > 0) {
+            return "Registro(s) deletado(s) com sucesso.";
+        } else {
+            return "Nenhum registro foi deletado.";
+        }
+    } catch (SQLException e) {
+        if (e.getSQLState().startsWith("23")) {
+            return "Erro: Esta operação viola uma chave estrangeira.";
+        } else {
+            
+            throw e; 
+        }
+    }catch (IllegalStateException e) {
+     return e.toString();
+    
+    }
+    
+    }
+       
+    }
 
       
     /**

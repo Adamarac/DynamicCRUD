@@ -109,13 +109,17 @@ public class ConfirmaExclusaoController implements Initializable {
         String pk = dao.pk();
         
         DynaBean atributos = registro.getBean();
-        Object pkVal = atributos.get(pk);
+        Object pkVal = null;
+                
+        if(pk != null){
+        pkVal = atributos.get(pk);}
         
-        String deletedRows = dao.excluir(pkVal,pk);
+        String deletedRows = dao.excluir(pkVal,atributos);
         
         title = "Deletar registro";
         message(deletedRows,title);
         break;
+
         
         
         }
