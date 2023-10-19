@@ -12,7 +12,9 @@ import Utility.Conexao;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -38,6 +40,7 @@ public class UpdateRegController implements Initializable {
     private Stage stage; 
     private CRUDDatabaseController crudController;
     private String database;
+    private List<String> values = new ArrayList<>();
 
     public void setBean(DynaBeans bean) {
         this.bean = bean;
@@ -74,15 +77,14 @@ public class UpdateRegController implements Initializable {
         DynaBean reg = preencherDynaBean();
         Conexao connection = new Conexao(database);
         Connection conn = connection.obterConexao();    
-        DynaDao dao = new DynaDao(conn, bean);
-        
-        
+        DynaDao dao = new DynaDao(conn, bean);   
         String pk = dao.pk();
-        String upres = dao.atualizar(reg, reg.get(pk));
+               
+        String upres = dao.atualizar(values,bean.getBean(),pk);
         message(upres,"Atualizar",7);
         
     } catch (SQLException e) {
-        message(e.toString(), "Erro SQL",4);
+        message(e.toString(), "Erro SQL",4);        
     } catch (IOException | IllegalAccessException | InstantiationException e) {
         message(e.toString(), "Erro",4);
     } catch (Exception e) {
@@ -107,7 +109,7 @@ public class UpdateRegController implements Initializable {
     public void Campos() throws SQLException, IllegalAccessException, InstantiationException{
     
     if (bean != null) {
-        
+                       
             Conexao connection = new Conexao(database);
             Connection conn = connection.obterConexao();   
             DynaDao dao = new DynaDao(conn, bean);
@@ -123,7 +125,8 @@ public class UpdateRegController implements Initializable {
             for (int i = 0; i < dynaProperties.length; i++) {
                 DynaProperty dynaProperty = dynaProperties[i];
                 String propertyName = dynaProperty.getName();
-
+                values.add(campos.get(propertyName).toString());                
+                
                 Text text = new Text(propertyName + ":");
                 TextField textField;
                 

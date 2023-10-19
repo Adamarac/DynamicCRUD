@@ -61,10 +61,11 @@ public class CreateTableController implements Initializable {
         String title = "Resultado";
         
         String verify = "Tabela criada com sucesso!";
+        String verify2 = "Tabela criada com sucesso!\n\n As demais querys foram ignoradas";
         
-        if(!verify.equals(retorno)){
-        message(retorno,title,4);}else{
-        message(retorno,title,6);
+        if(verify.equals(retorno) || verify2.equals(retorno)){
+        message(retorno,title,6);}else{
+        message(retorno,title,4);
         } 
   
     }

@@ -128,11 +128,17 @@ public String createDatabase(String name) throws SQLException {
         Statement statement = connect.createStatement();
  
         String text = "CREATE TABLE " + name + " ( " + content + " );";
+        String[] sqlStatements = text.split(";");
         String sql = text.split(";")[0] + ";";
         
         try{
         statement.executeUpdate(sql);       
-        return "Tabela criada com sucesso!";
+
+            if (sqlStatements.length > 1) {
+                return "Tabela criada com sucesso!\n\n As demais querys foram ignoradas";
+            } else {
+               return "Tabela criada com sucesso!";
+            }
         
         } catch (SQLException e) {
         if (e instanceof SQLIntegrityConstraintViolationException) {

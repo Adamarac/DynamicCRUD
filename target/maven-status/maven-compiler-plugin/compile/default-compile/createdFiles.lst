@@ -1,6 +1,5 @@
 Controllers\CreateDatabaseController.class
 Controllers\UpdateRegController.class
-Utility\teste.class
 Controllers\CRUDDatabaseController.class
 module-info.class
 Utility\Conexao.class

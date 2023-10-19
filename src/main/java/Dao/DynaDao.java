@@ -202,27 +202,16 @@ public class DynaDao {
       
     /**
      *
+     * @param old
      * @param atualiza
      * @param id
+     * @return 
      * @throws SQLException
      */
-    public String atualizar(DynaBean atualiza, Object id) throws SQLException{ 
+    public String atualizar(List<String> old, DynaBean atualiza, Object id) throws SQLException{ 
                
-        String sql = createUpdate(atualiza);
-        
-        PreparedStatement ps = connection.prepareStatement(sql);
-        
-        List<String> colunas = table.attributeToList();
-        
-        int index = 1;
-        for(String column : colunas){
-            ps.setObject(index, atualiza.get(column));
-            index++;
-        }
-        
-        
-        ps.setObject(index, id);
-        
+        PreparedStatement ps = createUpdate(atualiza, old);
+               
         int rowsAffected = ps.executeUpdate();
         
         if (rowsAffected > 0) {
@@ -286,27 +275,69 @@ public class DynaDao {
     /**
      *
      * @param atualizar
+     * @param values
      * @return
      * @throws SQLException
      */
-    public String createUpdate(DynaBean atualizar) throws SQLException{
-    
-        String tabela = table.getName();
-        String pk = pk();
+    public PreparedStatement createUpdate(DynaBean atualizar, List<String> values) throws SQLException {
+    String tabela = table.getName();
+    String pk = pk();
+    PreparedStatement ps = null;
 
-        List<String> colunas = table.attributeToList();
-        
-        StringBuilder sql = new StringBuilder("UPDATE " + tabela + " SET ");
-        for (int i = 0; i < colunas.size(); i++) {
-            if (i > 0) {
-                sql.append(", ");
-            }
-            sql.append(colunas.get(i)).append(" = ?");
+    List<String> colunas = table.attributeToList();
+    
+    StringBuilder sql = new StringBuilder("UPDATE " + tabela + " SET ");
+    DynaProperty[] properties = atualizar.getDynaClass().getDynaProperties();
+    List<String> attributeNames = new ArrayList<>();
+
+    for (DynaProperty property : properties) {
+        attributeNames.add(property.getName());
+    }
+
+    for (int i = 1; i <= colunas.size(); i++) {
+        if (i > 1) {
+            sql.append(", ");
         }
+        sql.append(colunas.get(i - 1)).append(" = ?");
+    }
+   
+    if (pk == null) {
+        sql.append(" WHERE ");
+        for (int i = 1; i <= colunas.size(); i++) {
+            if (i > 1) {
+                sql.append(" AND ");
+            }
+            sql.append(colunas.get(i - 1)).append(" = ?");
+        }
+        
+        ps = connection.prepareStatement(sql.toString());
+        
+        int i = 1;
+        while (i <= colunas.size()) {
+             ps.setObject(i, atualizar.get(attributeNames.get(i - 1)));     
+             i++;
+        }
+        
+        int j = i;
+        while (i < j + colunas.size()) {
+             ps.setObject(i, values.get(i - j));
+             i++;
+        }    
+    }
+    else {
         sql.append(" WHERE ").append(pk).append(" = ?");
         
-        return sql.toString();
+        ps = connection.prepareStatement(sql.toString());
+        
+        for (int i = 1; i <= colunas.size(); i++) {
+             ps.setObject(i, atualizar.get(attributeNames.get(i - 1)));     
+        }
+        ps.setObject(colunas.size() + 1, atualizar.get(pk));
     }
+    
+    return ps;
+}
+
     
     
     public List<String> getAutoIncrementColumns() {
