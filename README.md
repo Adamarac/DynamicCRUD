@@ -21,7 +21,7 @@ The design pattern used for the project development, aiming at modularity and co
 
 <br><br>
 
-# 🛠 Tecnologias
+# 🛠 Tecnologies
 
 For the development of the project, the following tools were used:
 <br>
@@ -39,7 +39,7 @@ The JavaFX platform was used to develop the project's UI, aiming for a modern an
 	🚧  Project in progress...  🚧
 </h4>
 
-### Etapas
+### Stages
 
 - [x] Creation and deletion of databases
 - [x] Creation and deletion of tables
