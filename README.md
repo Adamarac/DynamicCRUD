@@ -21,7 +21,7 @@ The design pattern used for the project development, aiming at modularity and co
 
 <br><br>
 
-# 🛠 Tecnologies
+# 🛠 Technologies
 
 For the development of the project, the following tools were used:
 <br>
