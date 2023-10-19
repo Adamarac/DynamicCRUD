@@ -23,7 +23,7 @@ The design pattern used for the project development, aiming at modularity and co
 
 # 🛠 Tecnologias
 
-Para desenvolvimento do projeto foram utilizadas as seguintes ferramentas:
+For the development of the project, the following tools were used:
 <br>
 - [JDK FX 21](https://www.azul.com/)
 - [Scene Builder](https://gluonhq.com/products/scene-builder/)
@@ -36,16 +36,15 @@ The JavaFX platform was used to develop the project's UI, aiming for a modern an
 <br><br><br>
 #
 <h4 align="center"> 
-	🚧  Projeto em desenvolvimento...  🚧
+	🚧  Project in progress...  🚧
 </h4>
 
 ### Etapas
 
-- [x] Criação e exclusão de bases
-- [x] Criação e exclusão de tabelas
-- [x] CRUD dos registros das tabelas
-- [ ] Limpeza e refatoração de código
-
+- [x] Creation and deletion of databases
+- [x] Creation and deletion of tables
+- [x] CRUD (Create, Read, Update, Delete) operations on table records
+- [ ] Code cleanup and refactoring
 <div align="center">
   <img src="https://i.imgur.com/xkhFkYP.png" alt="Tela inicial" width="400" />
   <img src="https://i.imgur.com/xRHBDcO.png" alt="Listagem de registros" width="400" />
