@@ -39,7 +39,7 @@ The JavaFX platform was used to develop the project's UI, aiming for a modern an
 	🚧  Projeto em desenvolvimento...  🚧
 </h4>
 
-### Features
+### Etapas
 
 - [x] Criação e exclusão de bases
 - [x] Criação e exclusão de tabelas
