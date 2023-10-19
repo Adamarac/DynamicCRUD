@@ -1,7 +1,9 @@
 # DYNAMIC CRUD 💾
 <p align="center">A project for the 'Programming Techniques' course that aims to develop an interface capable of performing CRUD (Create, Read, Update, Delete) operations on any table requested by the user in a MySQL database. 🔍</p>
 
-<img alt="Static Badge" src="https://shields.io/category/license">
+![License](https://img.shields.io/badge/license-MIT-green)
+![JavaFX Version](https://img.shields.io/badge/JavaFX-16.0.2-blue)
+
 
 
 # Model-view-controller (MVC)
