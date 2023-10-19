@@ -1,13 +1,18 @@
 # DYNAMIC CRUD 💾
 <p align="center">A project for the 'Programming Techniques' course that aims to develop an interface capable of performing CRUD (Create, Read, Update, Delete) operations on any table requested by the user in a MySQL database. 🔍</p>
+<br>
 
+<p align="center">
 ![License](https://img.shields.io/badge/license-MIT-green)
-![JavaFX Version](https://img.shields.io/badge/JavaFX-16.0.2-blue)
-
+![JavaFX Version](https://img.shields.io/badge/JavaFX-21_LTS-blue)
+![MySQL](https://img.shields.io/badge/MariaDB-10.4.28-blue)
+</p>
 
 
 # Model-view-controller (MVC)
 The design pattern used for the project development, aiming at modularity and cohesion in classes and methods, was the Model-View-Controller (MVC). 📜
+
+
 
 ### 🛠 Tecnologias
 
